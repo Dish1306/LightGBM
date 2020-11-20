@@ -37,6 +37,7 @@ jobs:
       docker run -v $(pwd):"${DOCKER_ROOT_DIRECTORY}":rw,z \
                  -e HOST_USER_ID \
                  "quay.io/pypa/manylinux2014_aarch64" \
+                 pwd; \
                  bash -c "cd $DOCKER_ROOT_DIRECTORY;
                  /opt/python/$(python.code)/bin/python -m venv .build-venv && \
                  source .build-venv/bin/activate && \
@@ -45,5 +46,5 @@ jobs:
                  auditwheel repair dist/*.whl --wheel-dir wheelhouse/;"
       displayName: 'Running AArch64 wheel build'
       env:
-        DOCKER_ROOT_DIRECTORY: "/home/source_root"
+        DOCKER_ROOT_DIRECTORY: "/home/source_root/python-package"
         HOST_USER_ID: $(id -u)
