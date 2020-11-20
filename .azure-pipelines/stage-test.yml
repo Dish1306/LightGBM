@@ -42,8 +42,8 @@ stages:
         python -m pip install --upgrade pip setuptools wheel
       displayName: 'Update pip'
     - script: |
-        cd python-package && python setup.py install
-      displayName: 'Install itself'
+        pwd
+      displayName: 'pwd'
     - script: |
         cd python-package && python setup.py bdist_wheel
       displayName: 'build  wheel'
