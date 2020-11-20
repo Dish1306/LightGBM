@@ -6,8 +6,8 @@ pr: none
 
 
 jobs:
-- job: manylinux
-  displayName: 'Manylinux'
+- job: manylinux2014
+  displayName: 'Manylinux_aarch64'
   strategy:
     matrix:
       py35 aarch64:
@@ -32,20 +32,18 @@ jobs:
     
   - script: docker run --rm --privileged hypriot/qemu-register
     displayName: 'Registering qemu'
-  #- script: |
-  #    set -xeo pipefail
-  #    docker run -v $(pwd):"${DOCKER_ROOT_DIRECTORY}":rw,z \
-  #               -e HOST_USER_ID \
-  #               "quay.io/pypa/manylinux2014_aarch64" \
-  #               bash -c "cd $DOCKER_ROOT_DIRECTORY;
-  #               /opt/python/$(python.code)/bin/python -m venv .build-venv && \
-  #               source .build-venv/bin/activate && \
-  #               pip install -U setuptools wheel && \
-  #               ${{ parameters.steps }}
-  #               python setup.py bdist_wheel && \
-  #               auditwheel repair dist/*.whl --wheel-dir wheelhouse/;"
-  #    displayName: 'Running AArch64 wheel build'
-  #    env:
-  #      DOCKER_ROOT_DIRECTORY: "/home/source_root"
-  #      HOST_USER_ID: $(id -u)
-#
+  - script: |
+      set -xeo pipefail
+      docker run -v $(pwd):"${DOCKER_ROOT_DIRECTORY}":rw,z \
+                 -e HOST_USER_ID \
+                 "quay.io/pypa/manylinux2014_aarch64" \
+                 bash -c "cd $DOCKER_ROOT_DIRECTORY;
+                 /opt/python/$(python.code)/bin/python -m venv .build-venv && \
+                 source .build-venv/bin/activate && \
+                 pip install -U setuptools wheel && \
+                 python setup.py bdist_wheel && \
+                 auditwheel repair dist/*.whl --wheel-dir wheelhouse/;"
+      displayName: 'Running AArch64 wheel build'
+      env:
+        DOCKER_ROOT_DIRECTORY: "/home/source_root"
+        HOST_USER_ID: $(id -u)
