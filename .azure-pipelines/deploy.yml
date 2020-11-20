@@ -45,5 +45,5 @@ jobs:
                  auditwheel repair dist/*.whl --wheel-dir wheelhouse/;"
     displayName: 'Running AArch64 wheel build'
     env:
-      DOCKER_ROOT_DIRECTORY: "/home/source_root"
+      DOCKER_ROOT_DIRECTORY: "/home/source_root/python-package"
       HOST_USER_ID: $(id -u)
