@@ -26,9 +26,9 @@ jobs:
     vmImage: 'ubuntu-latest'
   container: manylinux
   steps:
-    - checkout: self
-      submodules: true
-      clean: true
+  - checkout: self
+    submodules: true
+    clean: true
 
     - script: docker run --rm --privileged hypriot/qemu-register
       displayName: 'Registering qemu'
