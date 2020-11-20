@@ -42,7 +42,7 @@ stages:
         python -m pip install --upgrade pip setuptools wheel
       displayName: 'Update pip'
     - script: |
-        python install bdist_wheel
+        python setup.py bdist_wheel
       displayName: 'Install itself'
     - script: |
         python -m pip install -r requirements/pytest.txt
