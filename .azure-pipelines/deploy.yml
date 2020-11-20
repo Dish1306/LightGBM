@@ -34,7 +34,7 @@ jobs:
     displayName: 'Registering qemu'
   - script: |
       set -xeo pipefail
-      docker run -v $(pwd):"${DOCKER_ROOT_DIRECTORY}":rw,z \
+      docker run -v $(pwd):"/home/python-package":rw,z \
                  -e HOST_USER_ID \
                  "quay.io/pypa/manylinux2014_aarch64" \
                  bash -c "cd $DOCKER_ROOT_DIRECTORY;
@@ -45,5 +45,5 @@ jobs:
                  auditwheel repair dist/*.whl --wheel-dir wheelhouse/;"
       displayName: 'Running AArch64 wheel build'
       env:
-        DOCKER_ROOT_DIRECTORY: "python-package"
+        DOCKER_ROOT_DIRECTORY: "/home/python-package"
         HOST_USER_ID: $(id -u)
