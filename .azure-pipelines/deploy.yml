@@ -29,8 +29,9 @@ jobs:
   - checkout: self
     submodules: true
     clean: true
-  #- script: docker run --rm --privileged hypriot/qemu-register
-  #  displayName: 'Registering qemu'
+    
+  - script: docker run --rm --privileged hypriot/qemu-register
+    displayName: 'Registering qemu'
   #- script: |
   #    set -xeo pipefail
   #    docker run -v $(pwd):"${DOCKER_ROOT_DIRECTORY}":rw,z \
