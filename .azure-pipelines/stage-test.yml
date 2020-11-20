@@ -45,9 +45,6 @@ stages:
         cd python-package && python setup.py install
       displayName: 'Install itself'
     - script: |
-        python -m pip install -r requirements/pytest.txt
-      displayName: 'Install dependencies'
-    - script: |
         python -m pip install pytest-azurepipelines
       displayName: 'Install pytest-azurepipelines'
     - script: |
