@@ -41,7 +41,7 @@ jobs:
                  /opt/python/$(python.code)/bin/python -m venv .build-venv && \
                  source .build-venv/bin/activate && \
                  pip install -U setuptools wheel && \
-                 cd python-package && python setup.py bdist_wheel && \
+                 cd python-package && python setup.py bdist_wheel --plat-name=manylinux2014_aarch64 || exit -1 && \
                  auditwheel repair dist/*.whl --wheel-dir wheelhouse/;"
     displayName: 'Running AArch64 wheel build'
     env:
