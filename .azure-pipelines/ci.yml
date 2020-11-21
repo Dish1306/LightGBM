@@ -41,7 +41,7 @@ jobs:
                  /opt/python/$(python.code)/bin/python -m venv .build-venv && \
                  source .build-venv/bin/activate && \
                  pip install --upgrade pip setuptools wheel setuptools wheel pytest && \
-                 pip install --upgrade joblib numpy pandas psutil python-graphviz scikit-learn scipy && \
+                 pip install --upgrade joblib numpy pandas psutil scikit-learn scipy && \
                  cd python-package && python setup.py install && \
                  cd .. && python -m pytest tests/;"
     displayName: 'Running aarch64 wheel test'
