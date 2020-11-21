@@ -1,18 +1,49 @@
 trigger:
-  batch: true
-  branches:
-    include:
-    - master
-    - ?.?*  # matches to backport branches, e.g. 3.6
   tags:
-    exclude:
-    - '*'
-pr:
-  autoCancel: true
-  branches:
     include:
-    - master
-    - ?.?*  # matches to backport branches, e.g. 3.6
+    - v?.*
+pr: none
 
-stages:
-- template: stage-test.yml
+
+jobs:
+- job: test_manylinux2014
+  displayName: 'Manylinux_aarch64_test'
+  strategy:
+    matrix:
+      py35 aarch64:
+        python.code: 'cp35-cp35m'
+        manylinux: 'manylinux_aarch64'
+      py36 aarch64:
+        python.code: 'cp36-cp36m'
+        manylinux: 'manylinux_aarch64'
+      py37 aarch64:
+        python.code: 'cp37-cp37m'
+        manylinux: 'manylinux_aarch644'
+      py38 aarch64:
+        python.code: 'cp38-cp38'
+        manylinux: 'manylinux_aarch64'
+  pool:
+    vmImage: 'ubuntu-latest'
+ 
+  steps:
+  - checkout: self
+    submodules: true
+    clean: true
+    
+  - script: docker run --rm --privileged hypriot/qemu-register
+    displayName: 'Registering qemu'
+  - script: |
+      set -xeo pipefail
+      docker run -v $(pwd):"${DOCKER_ROOT_DIRECTORY}":rw,z \
+                 -e HOST_USER_ID \
+                 "quay.io/pypa/manylinux2014_aarch64" \
+                 bash -c "cd $DOCKER_ROOT_DIRECTORY;
+                 /opt/python/$(python.code)/bin/python -m venv .build-venv && \
+                 source .build-venv/bin/activate && \
+                 pip install --upgrade pip setuptools wheel setuptools wheel && \
+                 cd python-package && python setup.py install && \
+                 cd .. && python -m pytest tests/;"
+    displayName: 'Running aarch64 wheel test'
+    env:
+      DOCKER_ROOT_DIRECTORY: "/home/source_root/"
+      HOST_USER_ID: $(id -u)
