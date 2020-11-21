@@ -40,7 +40,7 @@ jobs:
                  bash -c "cd $DOCKER_ROOT_DIRECTORY;
                  /opt/python/$(python.code)/bin/python -m venv .build-venv && \
                  source .build-venv/bin/activate && \
-                 pip install --upgrade pip setuptools wheel setuptools wheel && \
+                 pip install --upgrade pip setuptools wheel setuptools wheel pytest && \
                  cd python-package && python setup.py install && \
                  cd .. && python -m pytest tests/;"
     displayName: 'Running aarch64 wheel test'
